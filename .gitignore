@@ -1,0 +1,61 @@
+# Visual Studio & Rider
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build and Bin/Obj Folders
+bin/
+obj/
+out/
+
+# Logs
+*.log
+logs/
+
+# User-Specific Files
+*.rsuser
+*.sln.cache
+*.ncrunch*
+*.orig
+*.rej
+*.manifest
+*.aps
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates
+*.psess
+*.psesswpf
+
+# Dependencies
+packages/
+node_modules/
+dist/
+bower_components/
+
+# Environment & Configuration
+appsettings.json
+appsettings.Development.json
+secrets.json
+.env
+*.config
+*.data
+
+# Entity Framework Migrations (optional)
+Migrations/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Git Ignore System Files
+*.DS_Store
+*.bak
+*.swp
+Thumbs.db
+
+# VS Code settings
+.vscode/settings.json
