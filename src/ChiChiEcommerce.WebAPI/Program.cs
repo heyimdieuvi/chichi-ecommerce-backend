@@ -1,5 +1,10 @@
+using ChiChiEcommerce.Application.DTOs;
+using ChiChiEcommerce.Application.Services;
+using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Domain.Usecases;
 using ChiChiEcommerce.Infrastructure.Data;
 using ChiChiEcommerce.Infrastructure.Data.Entities;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Đăng ký DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Đăng ký các dependency cho Clean Architecture
+builder.Services.AddScoped<ShopRepository, ShopRepositoryImpl>();
+builder.Services.AddScoped<CreateShopUseCase>();
+builder.Services.AddScoped<ShopService>();
 
 var app = builder.Build();
 
@@ -22,29 +34,25 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+// Thêm POST API để tạo Shop
+app.MapPost("/api/shops", async (ShopDto shopDto, ShopService shopService) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    if (shopDto == null || string.IsNullOrEmpty(shopDto.Name))
+    {
+        return Results.BadRequest("Shop name is required.");
+    }
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    try
+    {
+        await shopService.CreateShopAsync(shopDto);
+        return Results.Ok("Shop created successfully.");
+    }
+    catch (Exception ex)
+    {
+        return Results.StatusCode(500);
+    }
 })
-.WithName("GetWeatherForecast")
+.WithName("CreateShop")
 .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
