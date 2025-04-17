@@ -1,10 +1,10 @@
+
 using ChiChiEcommerce.Application.DTOs;
 using ChiChiEcommerce.Application.Services;
 using ChiChiEcommerce.Domain.Repositories;
 using ChiChiEcommerce.Domain.Usecases;
-using ChiChiEcommerce.Infrastructure.Data;
-using ChiChiEcommerce.Infrastructure.Data.Entities;
 using Infrastructure.Data;
+using ChiChiEcommerce.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Đăng ký DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Đăng ký các dependency cho Clean Architecture
@@ -34,7 +33,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Thêm POST API để tạo Shop
 app.MapPost("/api/shops", async (ShopDto shopDto, ShopService shopService) =>
 {
     if (shopDto == null || string.IsNullOrEmpty(shopDto.Name))
