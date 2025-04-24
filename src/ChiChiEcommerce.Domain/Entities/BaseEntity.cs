@@ -8,9 +8,8 @@ namespace ChiChiEcommerce.Domain.Entities
     public class BaseEntity
     {
         public Guid Id {get; set; }
-        public DateTimeOffset? CreatedOn { get; set; }
-
-        public DateTimeOffset? ModifiedOn { get; set; }
+        public DateTimeOffset CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset? ModifiedAt { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
