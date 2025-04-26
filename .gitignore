@@ -45,7 +45,7 @@ secrets.json
 *.data
 
 # Entity Framework Migrations (optional)
-Migrations/
+#Migrations/
 
 # Docker
 .dockerignore
