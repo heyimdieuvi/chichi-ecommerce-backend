@@ -32,24 +32,4 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/api/shops", async (ShopDto shopDto, ShopService shopService) =>
-{
-    if (shopDto == null || string.IsNullOrEmpty(shopDto.Name))
-    {
-        return Results.BadRequest("Shop name is required.");
-    }
-
-    try
-    {
-        await shopService.CreateShopAsync(shopDto);
-        return Results.Ok("Shop created successfully.");
-    }
-    catch (Exception ex)
-    {
-        return Results.StatusCode(500);
-    }
-})
-.WithName("CreateShop")
-.WithOpenApi();
-
 app.Run();
