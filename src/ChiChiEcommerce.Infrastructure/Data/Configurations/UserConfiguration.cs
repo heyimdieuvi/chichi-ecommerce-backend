@@ -17,8 +17,8 @@ namespace ChiChiEcommerce.Infrastructure.Data.Configurations
 
             builder.Property(u => u.Name)
                    .HasColumnName("name")
-                   .HasMaxLength(255)
-                   .IsRequired();
+                   .HasMaxLength(255);
+              //      .IsRequired();
 
             builder.Property(u => u.Phone)
                    .HasColumnName("phone")
@@ -27,11 +27,6 @@ namespace ChiChiEcommerce.Infrastructure.Data.Configurations
             builder.Property(u => u.AvatarUrl)
                    .HasColumnName("avatar_url")
                    .HasMaxLength(512);
-
-            builder.HasOne(u => u.Account)
-                   .WithOne(a => a.User)
-                   .HasForeignKey<Account>(a => a.UserId)
-                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(u => u.CreatedAt)
                    .HasColumnName("created_at")
