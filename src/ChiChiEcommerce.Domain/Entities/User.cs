@@ -7,9 +7,9 @@ namespace ChiChiEcommerce.Domain.Entities
 {
 public class User : BaseEntity
 {
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; } = null!;
     public string? Phone { get; set; }
     public string? AvatarUrl { get; set; }
-    public Account? Account { get; set; }
+    public Account? Account { get; set; } //navigation property
 }
 }

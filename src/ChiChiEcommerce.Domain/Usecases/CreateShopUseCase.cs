@@ -41,8 +41,6 @@ namespace ChiChiEcommerce.Domain.Usecases
             {
                 throw new ArgumentException("Owner must have Seller role.", nameof(shop.OwnerId));
             }
-
-            await _shopRepository.CreateShopAsync(shop);
         }
     }
 }

@@ -1,16 +1,19 @@
 
 using ChiChiEcommerce.Application.DTOs;
-using ChiChiEcommerce.Application.Services;
+//using ChiChiEcommerce.Application.Services;
+using ChiChiEcommerce.Application.UseCases.AuthUseCase;
 using ChiChiEcommerce.Domain.Repositories;
-using ChiChiEcommerce.Domain.Usecases;
+//using ChiChiEcommerce.Domain.Usecases;
 using ChiChiEcommerce.Infrastructure;
 using ChiChiEcommerce.Infrastructure.Data;
+using ChiChiEcommerce.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,6 +30,8 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<CreateCategoryUseCase>();
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<RegisterUseCase>();
 
 var app = builder.Build();
 
@@ -38,5 +43,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
+//Map route
+app.MapControllers();
 
 app.Run();

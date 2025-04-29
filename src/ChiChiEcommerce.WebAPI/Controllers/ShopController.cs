@@ -14,11 +14,6 @@ namespace ChiChiEcommerce.WebApi.Controllers
     {
         private readonly ShopService _shopService;
 
-        public ShopsController(ShopService shopService)
-        {
-            _shopService = shopService;
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateShop([FromBody] ShopDto shopDto)
         {

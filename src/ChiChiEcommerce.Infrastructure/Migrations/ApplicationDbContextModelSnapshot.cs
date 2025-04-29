@@ -273,7 +273,6 @@ namespace ChiChiEcommerce.Infrastructure.Migrations
                         .HasColumnName("modified_at");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("name");
