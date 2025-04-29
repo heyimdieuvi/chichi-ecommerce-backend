@@ -4,6 +4,7 @@ using ChiChiEcommerce.Application.Services;
 using ChiChiEcommerce.Domain.Repositories;
 using ChiChiEcommerce.Domain.Usecases;
 using ChiChiEcommerce.Infrastructure;
+using ChiChiEcommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +18,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Đăng ký các dependency cho Clean Architecture
-// builder.Services.AddScoped<ShopRepository, ShopRepositoryImpl>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
 builder.Services.AddScoped<CreateShopUseCase>();
 builder.Services.AddScoped<ShopService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<CreateProductUseCase>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<CreateCategoryUseCase>();
+builder.Services.AddScoped<CategoryService>();
 
 var app = builder.Build();
 

@@ -7,9 +7,9 @@ namespace ChiChiEcommerce.Domain.Usecases
 {
     public class CreateShopUseCase
     {
-        private readonly ShopRepository _shopRepository;
+        private readonly IShopRepository _shopRepository;
 
-        public CreateShopUseCase(ShopRepository shopRepository)
+        public CreateShopUseCase(IShopRepository shopRepository)
         {
             _shopRepository = shopRepository;
         }

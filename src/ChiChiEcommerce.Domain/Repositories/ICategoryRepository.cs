@@ -4,7 +4,7 @@ using ChiChiEcommerce.Domain.Entities;
 
 namespace ChiChiEcommerce.Domain.Repositories
 {
-    public interface CategoryRepository
+    public interface ICategoryRepository
     {
         Task CreateCategoryAsync(Category category);
         Task<List<Category>> GetAllCategoriesAsync();

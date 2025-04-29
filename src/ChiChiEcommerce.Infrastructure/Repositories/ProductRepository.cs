@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChiChiEcommerce.Infrastructure.Data
 {
-    public class ProductRepositoryImpl : ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductRepositoryImpl(ApplicationDbContext context)
+        public ProductRepository(ApplicationDbContext context)
         {
             _context = context;
         }

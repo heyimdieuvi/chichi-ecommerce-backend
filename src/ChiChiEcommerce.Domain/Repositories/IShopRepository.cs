@@ -4,7 +4,7 @@ using ChiChiEcommerce.Domain.Entities;
 
 namespace ChiChiEcommerce.Domain.Repositories
 {
-    public interface ShopRepository
+    public interface IShopRepository
     {
         Task CreateShopAsync(Shop shop);
         Task<User> GetUserByIdAsync(Guid userId);

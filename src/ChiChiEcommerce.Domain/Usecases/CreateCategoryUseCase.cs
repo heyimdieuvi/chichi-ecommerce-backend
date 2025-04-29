@@ -7,9 +7,9 @@ namespace ChiChiEcommerce.Domain.Usecases
 {
     public class CreateCategoryUseCase
     {
-        private readonly CategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CreateCategoryUseCase(CategoryRepository categoryRepository)
+        public CreateCategoryUseCase(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChiChiEcommerce.Infrastructure.Data
 {
-    public class CategoryRepositoryImpl : CategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public CategoryRepositoryImpl(ApplicationDbContext context)
+        public CategoryRepository(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -4,7 +4,7 @@ using ChiChiEcommerce.Domain.Entities;
 
 namespace ChiChiEcommerce.Domain.Repositories
 {
-    public interface ProductRepository
+    public interface IProductRepository
     {
         Task CreateProductAsync(Product product);
         Task<PagedResult<Product>> GetProductsAsync(string? searchTerm, Guid? categoryId, int pageNumber, int pageSize);

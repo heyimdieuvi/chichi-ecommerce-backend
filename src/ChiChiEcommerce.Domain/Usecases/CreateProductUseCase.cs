@@ -7,11 +7,11 @@ namespace ChiChiEcommerce.Domain.Usecases
 {
     public class CreateProductUseCase
     {
-        private readonly ProductRepository _productRepository;
-        private readonly ShopRepository _shopRepository;
-        private readonly CategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IShopRepository _shopRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CreateProductUseCase(ProductRepository productRepository, ShopRepository shopRepository, CategoryRepository categoryRepository)
+        public CreateProductUseCase(IProductRepository productRepository, IShopRepository shopRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _shopRepository = shopRepository;

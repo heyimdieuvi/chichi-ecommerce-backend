@@ -10,9 +10,9 @@ namespace ChiChiEcommerce.Application.Services
     public class CategoryService
     {
         private readonly CreateCategoryUseCase _createCategoryUseCase;
-        private readonly CategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(CreateCategoryUseCase createCategoryUseCase, CategoryRepository categoryRepository)
+        public CategoryService(CreateCategoryUseCase createCategoryUseCase, ICategoryRepository categoryRepository)
         {
             _createCategoryUseCase = createCategoryUseCase;
             _categoryRepository = categoryRepository;

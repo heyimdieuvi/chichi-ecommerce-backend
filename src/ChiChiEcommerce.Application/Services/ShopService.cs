@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using ChiChiEcommerce.Application.Services;
 using ChiChiEcommerce.Application.DTOs;
 using ChiChiEcommerce.Domain.Entities;
 using ChiChiEcommerce.Domain.Usecases;
@@ -10,9 +11,8 @@ namespace ChiChiEcommerce.Application.Services
     public class ShopService
     {
         private readonly CreateShopUseCase _createShopUseCase;
-        private readonly ShopRepository _shopRepository;
-
-        public ShopService(CreateShopUseCase createShopUseCase, ShopRepository shopRepository)
+        private readonly IShopRepository _shopRepository; //????
+        public ShopService(CreateShopUseCase createShopUseCase, IShopRepository shopRepository)
         {
             _createShopUseCase = createShopUseCase;
             _shopRepository = shopRepository;

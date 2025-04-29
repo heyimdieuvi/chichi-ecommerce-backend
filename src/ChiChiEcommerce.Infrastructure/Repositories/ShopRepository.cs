@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChiChiEcommerce.Infrastructure.Data
 {
-    public class ShopRepositoryImpl : ShopRepository
+    public class ShopRepository : IShopRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public ShopRepositoryImpl(ApplicationDbContext context)
+        public ShopRepository(ApplicationDbContext context)
         {
             _context = context;
         }
