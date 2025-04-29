@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace ChiChiEcommerce.Domain.Entities
 {
-    public class Shop
+    public class Shop : BaseEntity
     {
-        public int Shopid { get; set; } 
-        public string Name { get; set; } 
-        public int Ownerid { get; set; } 
-        public User Owner { get; set; }   
+        public string Name { get; set; } = null!;
+        public string Location { get; set; } = null!;
+        public Guid OwnerId { get; set; }
+        public User Owner { get; set; } = null!;
     }
 }

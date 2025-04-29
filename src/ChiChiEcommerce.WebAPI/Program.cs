@@ -1,12 +1,11 @@
-
-using ChiChiEcommerce.Application.DTOs;
-//using ChiChiEcommerce.Application.Services;
 using ChiChiEcommerce.Application.UseCases.AuthUseCase;
-using ChiChiEcommerce.Domain.Repositories;
-//using ChiChiEcommerce.Domain.Usecases;
 using ChiChiEcommerce.Infrastructure;
+using ChiChiEcommerce.Infrastructure.Data;
 using ChiChiEcommerce.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using ChiChiEcommerce.Application.IRepositories;
+using ChiChiEcommerce.Application.Usecases;
+using ChiChiEcommerce.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +19,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Đăng ký các dependency cho Clean Architecture
-// builder.Services.AddScoped<ShopRepository, ShopRepositoryImpl>();
-// builder.Services.AddScoped<CreateShopUseCase>();
-// builder.Services.AddScoped<ShopService>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<CreateShopUseCase>();
+builder.Services.AddScoped<GetShopUseCase>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<CreateProductUseCase>();
+builder.Services.AddScoped<GetProductUseCase>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<CreateCategoryUseCase>();
+builder.Services.AddScoped<GetAllCategoryUseCase>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<RegisterUseCase>();
 
@@ -37,25 +45,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.MapPost("/api/shops", async (ShopDto shopDto, ShopService shopService) =>
-// {
-//     if (shopDto == null || string.IsNullOrEmpty(shopDto.Name))
-//     {
-//         return Results.BadRequest("Shop name is required.");
-//     }
-
-//     try
-//     {
-//         await shopService.CreateShopAsync(shopDto);
-//         return Results.Ok("Shop created successfully.");
-//     }
-//     catch (Exception ex)
-//     {
-//         return Results.StatusCode(500);
-//     }
-// })
-// .WithName("CreateShop")
-// .WithOpenApi();
 
 //Map route
 app.MapControllers();

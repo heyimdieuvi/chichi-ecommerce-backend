@@ -2,11 +2,10 @@ using System;
 
 namespace ChiChiEcommerce.Application.DTOs
 {
-    public class ShopDto
+    public class CategoryDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
-        public string Location { get; set; } = null!;
-        public Guid OwnerId { get; set; }
+        public string? Description { get; set; }
     }
 }
