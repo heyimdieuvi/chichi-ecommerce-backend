@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Domain.Entities;
 
-namespace ChiChiEcommerce.Domain.Repositories
+namespace ChiChiEcommerce.Application.IRepositories
 {
     public interface IProductRepository
     {

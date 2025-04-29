@@ -1,35 +1,18 @@
 using System;
 using System.Threading.Tasks;
-using ChiChiEcommerce.Application.DTOs;
 using ChiChiEcommerce.Domain.Entities;
-using ChiChiEcommerce.Domain.Usecases;
-using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Application.IRepositories;
+using ChiChiEcommerce.Application.DTOs;
 
-namespace ChiChiEcommerce.Application.Services
+namespace ChiChiEcommerce.Application.Usecases
 {
-    public class ProductService
+    public class GetProductUseCase
     {
-        private readonly CreateProductUseCase _createProductUseCase;
-        private readonly ProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(CreateProductUseCase createProductUseCase, ProductRepository productRepository)
+        public GetProductUseCase(IProductRepository productRepository)
         {
-            _createProductUseCase = createProductUseCase;
             _productRepository = productRepository;
-        }
-
-        public async Task CreateProductAsync(ProductDto productDto)
-        {
-            var product = new Product
-            {
-                Name = productDto.Name,
-                Price = productDto.Price,
-                Description = productDto.Description,
-                Stock = productDto.Stock,
-                ShopId = productDto.ShopId,
-                CategoryId = productDto.CategoryId
-            };
-            await _createProductUseCase.ExecuteAsync(product);
         }
 
         public async Task<PagedResultDto<ProductDto>> GetProductsAsync(string? searchTerm, Guid? categoryId, int pageNumber, int pageSize)

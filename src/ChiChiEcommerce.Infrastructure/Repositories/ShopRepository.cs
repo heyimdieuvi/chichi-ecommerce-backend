@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Domain.Entities;
-using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Application.IRepositories;
 using ChiChiEcommerce.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,13 +18,15 @@ namespace ChiChiEcommerce.Infrastructure.Data
 
         public async Task CreateShopAsync(Shop shop)
         {
-            _context.Shops.Add(shop);
+            await _context.Shops.AddAsync(shop);
             await _context.SaveChangesAsync();
         }
 
         public async Task<User> GetUserByIdAsync(Guid userId)
         {
-            return await _context.Users.FindAsync(userId);
+            return await _context.Users
+                                .Include(u => u.Account)  
+                                .FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<Shop> GetShopByIdAsync(Guid shopId)

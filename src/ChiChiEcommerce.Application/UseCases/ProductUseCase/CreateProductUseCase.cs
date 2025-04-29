@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Domain.Entities;
-using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Application.IRepositories;
+using ChiChiEcommerce.Application.DTOs;
 
-namespace ChiChiEcommerce.Domain.Usecases
+namespace ChiChiEcommerce.Application.Usecases
 {
     public class CreateProductUseCase
     {
@@ -18,8 +19,18 @@ namespace ChiChiEcommerce.Domain.Usecases
             _categoryRepository = categoryRepository;
         }
 
-        public async Task ExecuteAsync(Product product)
+        public async Task ExecuteAsync(ProductDto productDto)
         {
+            var product = new Product
+            {
+                Name = productDto.Name,
+                Price = productDto.Price,
+                Description = productDto.Description,
+                Stock = productDto.Stock,
+                ShopId = productDto.ShopId,
+                CategoryId = productDto.CategoryId
+            };
+
             if (product == null)
             {
                 throw new ArgumentNullException(nameof(product), "Product cannot be null.");

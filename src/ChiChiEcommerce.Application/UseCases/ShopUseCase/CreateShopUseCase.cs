@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Domain.Entities;
-using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Application.IRepositories;
+using ChiChiEcommerce.Application.DTOs;
 
-namespace ChiChiEcommerce.Domain.Usecases
+namespace ChiChiEcommerce.Application.Usecases
 {
     public class CreateShopUseCase
     {
@@ -14,8 +15,19 @@ namespace ChiChiEcommerce.Domain.Usecases
             _shopRepository = shopRepository;
         }
 
-        public async Task ExecuteAsync(Shop shop)
+        public async Task ExecuteAsync(ShopDto shopDto)
         {
+             if (shopDto == null)
+            {
+                throw new ArgumentNullException(nameof(shopDto), "Shop DTO cannot be null.");
+            }
+            var shop = new Shop
+            {
+                Name = shopDto.Name,
+                Location = shopDto.Location,
+                OwnerId = shopDto.OwnerId
+            };
+
             if (shop == null)
             {
                 throw new ArgumentNullException(nameof(shop), "Shop cannot be null.");
@@ -37,10 +49,17 @@ namespace ChiChiEcommerce.Domain.Usecases
                 throw new ArgumentException($"User with ID {shop.OwnerId} does not exist.", nameof(shop.OwnerId));
             }
 
+            if (owner.Account == null)
+            {
+                throw new ArgumentException($"User with ID {shop.OwnerId} does not have an associated account.", nameof(shop.OwnerId));
+            }
+
             if (owner.Account.Role != "Seller")
             {
                 throw new ArgumentException("Owner must have Seller role.", nameof(shop.OwnerId));
             }
+            
+            await _shopRepository.CreateShopAsync(shop);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Domain.Entities;
-using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Application.IRepositories;
 using ChiChiEcommerce.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 

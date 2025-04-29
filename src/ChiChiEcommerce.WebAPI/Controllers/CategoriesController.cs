@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using ChiChiEcommerce.Application.DTOs;
-using ChiChiEcommerce.Application.Services;
+using ChiChiEcommerce.Application.Usecases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +10,15 @@ namespace ChiChiEcommerce.WebApi.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly CategoryService _categoryService;
+        private readonly GetAllCategoryUseCase _getAllCategoryUseCase;
+        private readonly CreateCategoryUseCase _createCategoryUseCase;
 
-        public CategoriesController(CategoryService categoryService)
+        public CategoriesController(GetAllCategoryUseCase getAllCategoryUseCase, CreateCategoryUseCase createCategoryUseCase)
         {
-            _categoryService = categoryService;
+            _getAllCategoryUseCase = getAllCategoryUseCase;
+            _createCategoryUseCase = createCategoryUseCase;
         }
-
+    
         [HttpPost]
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryDto categoryDto)
@@ -28,7 +30,7 @@ namespace ChiChiEcommerce.WebApi.Controllers
 
             try
             {
-                await _categoryService.CreateCategoryAsync(categoryDto);
+                await _createCategoryUseCase.ExecuteAsync(categoryDto);
                 return Ok("Category created successfully.");
             }
             catch (ArgumentException ex)
@@ -47,7 +49,7 @@ namespace ChiChiEcommerce.WebApi.Controllers
         {
             try
             {
-                var categories = await _categoryService.GetAllCategoriesAsync();
+                var categories = await _getAllCategoryUseCase.GetAllCategoriesAsync();
                 return Ok(categories);
             }
             catch (Exception ex)

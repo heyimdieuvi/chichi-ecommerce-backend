@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Application.DTOs;
-using ChiChiEcommerce.Application.Services;
+using ChiChiEcommerce.Application.Usecases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +12,14 @@ namespace ChiChiEcommerce.WebApi.Controllers
     // [Authorize(Roles = "Seller,Admin")]
     public class ShopsController : ControllerBase
     {
-        private readonly ShopService _shopService;
+        private readonly CreateShopUseCase _createShopUseCase;
+        private readonly GetShopUseCase _getShopsUseCase;
+
+        public ShopsController(CreateShopUseCase createShopUseCase, GetShopUseCase getShopsUseCase)
+        {
+            _createShopUseCase = createShopUseCase;
+            _getShopsUseCase = getShopsUseCase;
+        }
 
         [HttpPost]
         public async Task<IActionResult> CreateShop([FromBody] ShopDto shopDto)
@@ -24,7 +31,7 @@ namespace ChiChiEcommerce.WebApi.Controllers
 
             try
             {
-                await _shopService.CreateShopAsync(shopDto);
+                await _createShopUseCase.ExecuteAsync(shopDto);
                 return Ok("Shop created successfully.");
             }
             catch (ArgumentException ex)
@@ -43,7 +50,7 @@ namespace ChiChiEcommerce.WebApi.Controllers
         {
             try
             {
-                var shop = await _shopService.GetShopByIdAsync(shopId);
+                var shop = await _getShopsUseCase.ExecuteAsync(shopId);
                 return Ok(shop);
             }
             catch (KeyNotFoundException ex)

@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Application.DTOs;
-using ChiChiEcommerce.Application.Services;
+using ChiChiEcommerce.Application.Usecases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +11,13 @@ namespace ChiChiEcommerce.WebApi.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductService _productService;
+        private readonly GetProductUseCase _getProductUseCase;
+        private readonly CreateProductUseCase _createProductUseCase;
 
-        public ProductsController(ProductService productService)
+        public ProductsController(GetProductUseCase getProductUseCase, CreateProductUseCase createProductUseCase)
         {
-            _productService = productService;
+            _getProductUseCase = getProductUseCase;
+            _createProductUseCase = createProductUseCase;
         }
 
         [HttpPost]
@@ -29,7 +31,7 @@ namespace ChiChiEcommerce.WebApi.Controllers
 
             try
             {
-                await _productService.CreateProductAsync(productDto);
+                await _createProductUseCase.ExecuteAsync(productDto);
                 return Ok("Product created successfully.");
             }
             catch (ArgumentException ex)
@@ -48,7 +50,7 @@ namespace ChiChiEcommerce.WebApi.Controllers
         {
             try
             {
-                var result = await _productService.GetProductsAsync(searchTerm, categoryId, pageNumber, pageSize);
+                var result = await _getProductUseCase.GetProductsAsync(searchTerm, categoryId, pageNumber, pageSize);
                 return Ok(result);
             }
             catch (Exception ex)

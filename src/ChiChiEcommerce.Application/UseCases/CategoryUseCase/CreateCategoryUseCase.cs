@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using ChiChiEcommerce.Domain.Entities;
-using ChiChiEcommerce.Domain.Repositories;
+using ChiChiEcommerce.Application.IRepositories;
+using ChiChiEcommerce.Application.DTOs;
 
-namespace ChiChiEcommerce.Domain.Usecases
+namespace ChiChiEcommerce.Application.Usecases
 {
     public class CreateCategoryUseCase
     {
@@ -14,8 +15,14 @@ namespace ChiChiEcommerce.Domain.Usecases
             _categoryRepository = categoryRepository;
         }
 
-        public async Task ExecuteAsync(Category category)
+        public async Task ExecuteAsync(CategoryDto categoryDto)
         {
+            var category = new Category
+            {
+                Name = categoryDto.Name,
+                Description = categoryDto.Description
+            };
+            
             if (category == null)
             {
                 throw new ArgumentNullException(nameof(category), "Category cannot be null.");

@@ -1,13 +1,11 @@
-
-using ChiChiEcommerce.Application.DTOs;
-//using ChiChiEcommerce.Application.Services;
 using ChiChiEcommerce.Application.UseCases.AuthUseCase;
-using ChiChiEcommerce.Domain.Repositories;
-//using ChiChiEcommerce.Domain.Usecases;
 using ChiChiEcommerce.Infrastructure;
 using ChiChiEcommerce.Infrastructure.Data;
 using ChiChiEcommerce.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using ChiChiEcommerce.Application.IRepositories;
+using ChiChiEcommerce.Application.Usecases;
+using ChiChiEcommerce.Domain.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,13 +21,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Đăng ký các dependency cho Clean Architecture
 builder.Services.AddScoped<IShopRepository, ShopRepository>();
 builder.Services.AddScoped<CreateShopUseCase>();
-builder.Services.AddScoped<ShopService>();
+builder.Services.AddScoped<GetShopUseCase>();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<CreateProductUseCase>();
-builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<GetProductUseCase>();
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<CreateCategoryUseCase>();
-builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<GetAllCategoryUseCase>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<RegisterUseCase>();
 
