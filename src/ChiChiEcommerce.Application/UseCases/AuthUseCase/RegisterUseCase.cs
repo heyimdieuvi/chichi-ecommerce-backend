@@ -21,12 +21,16 @@ namespace ChiChiEcommerce.Application.UseCases.AuthUseCase
         {
             if (await _unitOfWork.Accounts.CheckExistEmail(request.Email))
             {
-                throw new Exception("Email already exists");
+                return false;
+                //throw new Exception("Email already exists");
             }
             //     if(await _accountRepo.CheckExistUsername(request.UserName)) {
             //     throw new Exception("Email already exists");
             //   }
-            var user = new User();
+            var user = new User()
+            {
+                Name = request.Name
+            };
             await _unitOfWork.Users.AddUserAsync(user);
 
             var account = new Account

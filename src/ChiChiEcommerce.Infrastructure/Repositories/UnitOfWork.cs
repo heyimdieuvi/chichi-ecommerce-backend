@@ -16,7 +16,7 @@ namespace ChiChiEcommerce.Infrastructure.Repositories
             Accounts = new AccountRepository(context);
             Users = new UserRepository(context);
         }
-        public IAccountRepository Accounts { get; private set; }
+        public IAccountRepository Accounts { get; private set; } //services or usecase can access through UoW
         public IUserRepository Users { get; private set; }
 
         public async Task<int> CompleteAsync()
@@ -24,7 +24,7 @@ namespace ChiChiEcommerce.Infrastructure.Repositories
             return await _context.SaveChangesAsync();
         }
 
-        public void Dispose()
+        public void Dispose() //automatic call when request end
         {
             _context.Dispose();
         }

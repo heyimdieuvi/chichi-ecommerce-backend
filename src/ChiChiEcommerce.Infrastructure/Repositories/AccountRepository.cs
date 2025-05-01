@@ -22,5 +22,10 @@ namespace ChiChiEcommerce.Infrastructure.Repositories
     public async Task<bool> CheckExistEmail(string email) => await _context.Accounts.AnyAsync(a => a.Email == email);
 
     public async Task<bool> CheckExistUsername(string userName) => await _context.Accounts.AnyAsync(a => a.UserName == userName);
-  }
+
+    public async Task<Account?> GetAccountByEmail(string email)
+    {
+        return await _context.Accounts.FirstOrDefaultAsync(a => a.Email == email);
+    }
+    }
 }

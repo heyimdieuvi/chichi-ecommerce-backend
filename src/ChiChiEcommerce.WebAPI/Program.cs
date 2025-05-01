@@ -6,6 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using ChiChiEcommerce.Application.IRepositories;
 using ChiChiEcommerce.Application.Usecases;
 using ChiChiEcommerce.Domain.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ChiChiEcommerce.Application.Interface;
+using ChiChiEcommerce.Infrastructure.Services.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +38,24 @@ builder.Services.AddScoped<GetAllCategoryUseCase>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<RegisterUseCase>();
+builder.Services.AddScoped<LoginUseCase>();
+builder.Services.AddScoped<IJwtService, JwtService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+    options => {
+        options.TokenValidationParameters = new TokenValidationParameters() 
+        {
+            ValidateIssuer = true, 
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+        };
+    });
+
 
 var app = builder.Build();
 
@@ -45,7 +68,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.UseAuthentication();
+app.UseAuthorization();
 //Map route
 app.MapControllers();
 

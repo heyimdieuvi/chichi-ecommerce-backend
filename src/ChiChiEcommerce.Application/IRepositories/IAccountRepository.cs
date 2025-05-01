@@ -11,5 +11,6 @@ namespace ChiChiEcommerce.Domain.Repositories
         Task<bool> CheckExistEmail (string email);
         Task AddAccountAsync(Account account);
         Task<bool> CheckExistUsername (string userName);
+        Task<Account?> GetAccountByEmail (string email);
     }
 }
