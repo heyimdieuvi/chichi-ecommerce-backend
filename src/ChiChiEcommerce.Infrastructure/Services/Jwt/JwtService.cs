@@ -28,10 +28,14 @@ namespace ChiChiEcommerce.Infrastructure.Services.Jwt
                 new Claim(ClaimTypes.Email, account.Email),
                 new Claim(ClaimTypes.Role, account.Role)
             };
-            //set up key, loi ra tu configuration
+            //set up symmetric key - key này dùng byte array, loi ra tu configuration
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            //tạo 1 instance chứa symmetric key + thuật toán dùng để bảo mật
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
+            //
+            var testToken = new SecurityTokenDescriptor(
+                //issuer
+            );
             //create token
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
@@ -40,7 +44,11 @@ namespace ChiChiEcommerce.Infrastructure.Services.Jwt
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds
             );
+            
             return new JwtSecurityTokenHandler().WriteToken(token);
+            //class JwtSecurityTokenHandler này dùng để serialize object (token) -> string 
+                                                    // deserialize JWTs -> object - ReadToken()
         }
+
     }
 }

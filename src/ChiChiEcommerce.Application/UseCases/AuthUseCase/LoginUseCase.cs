@@ -17,7 +17,7 @@ namespace ChiChiEcommerce.Application.UseCases.AuthUseCase
             _unitOfWork = unitOfWork;
             _jwtService = jwtService;
         }
-        public async Task<string?> LoginAsync(LoginRequest request) 
+        public async Task<LoginResponse?> LoginAsync(LoginRequest request) 
         {
             //viec check required email voi password check o annotaion rui
             //get account tu email lieu co ton tai ko
@@ -28,7 +28,12 @@ namespace ChiChiEcommerce.Application.UseCases.AuthUseCase
             var inputPass = request.Password;
             var result = BCrypt.Net.BCrypt.Verify(inputPass, password);
             if (result is false) return null;
-            return _jwtService.GenerateToken(account);
+            var token = _jwtService.GenerateToken(account);
+            return new LoginResponse{
+                Email = account.Email,
+                Role = account.Role,
+                Token = token
+            };
         }
         
     }

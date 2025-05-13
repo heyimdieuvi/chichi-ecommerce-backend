@@ -31,8 +31,8 @@ namespace ChiChiEcommerce.WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login ([FromBody] LoginRequest request)
         {
-            var token = await _loginUseCase.LoginAsync(request);
-            return token is null ? Unauthorized("Wrong Email or Password!") : Ok(new{token});
+            var response = await _loginUseCase.LoginAsync(request);
+            return response is null ? Unauthorized(new { Message = "Wrong Email or Password!"}) : Ok(new{response});
         } 
     }
 }
